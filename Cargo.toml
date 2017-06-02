@@ -1,0 +1,16 @@
+[package]
+name = "merkle_tree"
+version = "0.1.0"
+authors = ["loo.maclin <loo.maclin@protonmail.com>"]
+
+[dependencies]
+rust-crypto = "0.2.36"
+bincode = "0.8.0"
+serde_derive = "1.0.8"
+serde = "1.0.8"
+log = "0.3.8"
+env_logger = "0.4.3"
+hex-slice = "0.1.0"
+serde_json = "1.0.2"
+rmp-serde = "0.13.3"
+rayon = "0.7.1"
