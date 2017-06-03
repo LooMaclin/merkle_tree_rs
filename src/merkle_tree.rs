@@ -249,13 +249,19 @@ impl MerkleTree {
                 return Err("Tree invalidate.");
             }
         } else {
-            let (index_of_transaction, hash) = self.layers[0]
+            match self.layers[0]
                 .iter()
                 .enumerate()
-                .find(|&(_, element)| *element == *hash)
-                .unwrap();
-            let proof_path = Vec::with_capacity(16);
-            self.recursive_audit_path(*hash, index_of_transaction, 0, proof_path)
+                .find(|&(_, element)| *element == *hash) {
+                Some(data) => {
+                    let proof_path = Vec::with_capacity(self.layers.len());
+                    self.recursive_audit_path(*data.1, data.0, 0, proof_path)
+                },
+                None => {
+                    Err("Transcaction hash not found in leaves layer.")
+                }
+            }
+
         }
 
     }
