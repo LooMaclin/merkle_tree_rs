@@ -258,7 +258,7 @@ impl MerkleTree {
                     self.recursive_audit_path(*data.1, data.0, 0, proof_path)
                 },
                 None => {
-                    Err("Transcaction hash not found in leaves layer.")
+                    Err("Transaction hash not found in leaves layer.")
                 }
             }
 
@@ -430,6 +430,16 @@ mod tests {
                         [50, 111, 53, 115, 90, 175, 184, 3, 43, 167, 87, 45, 15, 87, 106, 177,
                          119, 3, 240, 177, 194, 92, 104, 105, 85, 17, 37, 18, 59, 224, 113, 39]],
                    proof_path);
+    }
+
+    #[test]
+    fn test_transaction_hash_not_found() {
+        let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b", "c", "d", "e"],
+                                                           SerializationFormat::Json);
+        merkle_tree.print();
+        merkle_tree.build();
+        let proof_path = merkle_tree.audit_proof(&[172, 124, 131, 66, 187, 178, 54, 45, 19, 240, 165, 89, 163, 98, 27, 180, 7, 1, 19, 104, 137, 81, 100, 182, 40, 165, 79, 127, 195, 63, 196, 60]);
+        assert_eq!(Err("Transaction hash not found in leaves layer."), proof_path);
     }
 
 }
