@@ -33,7 +33,7 @@ impl MerkleTreeString {
     pub fn build(&mut self) {
         match self.layers[0].len() {
             0 => {
-                panic!("No leafs in tree!");
+                panic!("No leaves in tree!");
             }
             1 => {
                 debug!("Tree have one leaf. Merke root hash == hash(leaf[0])");
@@ -50,16 +50,16 @@ impl MerkleTreeString {
         self.builded = true;
     }
 
-    pub fn from(leafs: &mut [String], format: SerializationFormat) -> MerkleTreeString {
-        let log2_leafs = (leafs.len() as f64).log2();
-        println!("log2 leafs: {}", log2_leafs);
-        let mut base_layer = Vec::from(leafs);
-        //            base_layer = leafs.iter().map(|element| {
+    pub fn from(leaves: &mut [String], format: SerializationFormat) -> MerkleTreeString {
+        let log2_leaves = (leaves.len() as f64).log2();
+        println!("log2 leaves: {}", log2_leaves);
+        let mut base_layer = Vec::from(leaves);
+        //            base_layer = leaves.iter().map(|element| {
         //                hash_leaf_string(element)
         //            }).collect::<Vec<String>>();
         let mut layer_len = base_layer.len();
         base_layer.reserve(layer_len);
-        let mut layers: Vec<Vec<String>> = Vec::with_capacity(((log2_leafs).round()) as usize);
+        let mut layers: Vec<Vec<String>> = Vec::with_capacity(((log2_leaves).round()) as usize);
         layers.push(Vec::with_capacity(layer_len));
         while layer_len != 1 {
             debug!("Create new layer with capacity: {}", layer_len);
@@ -264,7 +264,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "No leafs in tree!")]
+    #[should_panic(expected = "No leaves in tree!")]
     fn build_empty_tree() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTreeString = MerkleTreeString::default();
@@ -312,7 +312,7 @@ mod tests {
     }
 
     #[test]
-    fn build_tree_from_leafs() {
+    fn build_tree_from_leaves() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTreeString = MerkleTreeString::from(&mut [String::from("a"),
                                                                              String::from("b"),

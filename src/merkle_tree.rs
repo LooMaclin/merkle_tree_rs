@@ -38,7 +38,7 @@ impl MerkleTree {
     pub fn build(&mut self) {
         match self.layers[0].len() {
             0 => {
-                panic!("No leafs in tree!");
+                panic!("No leaves in tree!");
             }
             1 => {
                 debug!("Tree have one leaf. Merke root hash == hash(leaf[0])");
@@ -63,12 +63,12 @@ impl MerkleTree {
     /// Производит создание "основы" Merkle tree.
     /// Принимает входной слайс транзакций, сериализует их, хэширует и добавляет в нулевой уровень.
     /// Так же заранее выделяет слои для будущего заполнения дерева резервируя чуть больше места чем нужно.
-    pub fn from<Serializable>(leafs: &mut [Serializable], format: SerializationFormat) -> MerkleTree
+    pub fn from<Serializable>(leaves: &mut [Serializable], format: SerializationFormat) -> MerkleTree
         where Serializable: Serialize + Clone
     {
-        let log2_leafs = (leafs.len() as f64).log2();
-        println!("log2 leafs: {}", log2_leafs);
-        let mut base_layer = leafs.iter()
+        let log2_leaves = (leaves.len() as f64).log2();
+        println!("log2 leaves: {}", log2_leaves);
+        let mut base_layer = leaves.iter()
             .map(|element| {
                 let serialized_element = format.serialize(&element);
                 hash_leaf(&serialized_element)
@@ -76,7 +76,7 @@ impl MerkleTree {
             .collect::<Vec<[u8; 32]>>();
         let mut layer_len = base_layer.len();
         base_layer.reserve(layer_len);
-        let mut layers: Vec<Vec<[u8; 32]>> = Vec::with_capacity(((log2_leafs).round()) as usize);
+        let mut layers: Vec<Vec<[u8; 32]>> = Vec::with_capacity(((log2_leaves).round()) as usize);
         layers.push(Vec::with_capacity(layer_len));
         while layer_len != 1 {
             debug!("Create new layer with capacity: {}", layer_len);
@@ -321,7 +321,7 @@ mod tests {
     }
 
     #[test]
-    #[should_panic(expected = "No leafs in tree!")]
+    #[should_panic(expected = "No leaves in tree!")]
     fn build_empty_tree() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTree = MerkleTree::default();
@@ -369,7 +369,7 @@ mod tests {
     }
 
     #[test]
-    fn build_tree_from_leafs() {
+    fn build_tree_from_leaves() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b", "c", "d"],
                                                            SerializationFormat::Json);
