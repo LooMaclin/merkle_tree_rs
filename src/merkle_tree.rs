@@ -63,7 +63,7 @@ impl MerkleTree {
     /// Производит создание "основы" Merkle tree.
     /// Принимает входной слайс транзакций, сериализует их, хэширует и добавляет в нулевой уровень.
     /// Так же заранее выделяет слои для будущего заполнения дерева резервируя чуть больше места чем нужно.
-    pub fn from<Serializable>(leaves: &mut [Serializable], format: SerializationFormat) -> MerkleTree
+    pub fn from<Serializable>(leaves: &[Serializable], format: SerializationFormat) -> MerkleTree
         where Serializable: Serialize + Clone
     {
         let log2_leaves = (leaves.len() as f64).log2();
