@@ -6,7 +6,6 @@ use hash_function::{hash_leaf, hash_node};
 
 
 /// Структура хранящая и отвечающая за Merkle Tree.
-///
 #[derive(Debug, Eq, PartialEq)]
 pub struct MerkleTree {
     /// Список слоёв дерева. Включая 0-ой слой с "листьями" (хэшами транзакций).
@@ -183,14 +182,14 @@ impl MerkleTree {
             if self.layers.len() - 1 == layer_index {
                 debug!("CREATE NEW LAYER");
                 self.layers.push(Vec::with_capacity(4));
-                let left = self.layers[layer_index][0].clone();
-                let right = self.layers[layer_index][1].clone();
+                let left = self.layers[layer_index][0];
+                let right = self.layers[layer_index][1];
                 let new_node = hash_node(&left, &right);
                 self.layers[layer_index + 1].push(new_node);
             } else {
                 if self.layers[layer_index].len() % 2 == 1 {
                     let last_node_index = self.layers[layer_index].len() - 1;
-                    let last_node = self.layers[layer_index][last_node_index].clone();
+                    let last_node = self.layers[layer_index][last_node_index];
                     let new_node = hash_leaf(&last_node);
                     self.layers[layer_index + 1].push(new_node);
                     self.recursive_repair_branch(layer_index + 1);
@@ -199,11 +198,11 @@ impl MerkleTree {
                         let last_node_index = self.layers[current_index].len() - 1;
                         let new_node;
                         if self.layers[current_index].len() % 2 == 0 {
-                            let left = self.layers[current_index][last_node_index - 1].clone();
-                            let right = self.layers[current_index][last_node_index].clone();
+                            let left = self.layers[current_index][last_node_index - 1];
+                            let right = self.layers[current_index][last_node_index];
                             new_node = hash_node(&left, &right);
                         } else {
-                            let right = self.layers[current_index][last_node_index].clone();
+                            let right = self.layers[current_index][last_node_index];
                             new_node = hash_leaf(&right);
                         }
                         debug!("Next layer len: {}", self.layers[current_index + 1].len());
@@ -257,7 +256,7 @@ impl MerkleTree {
                 .find(|&(_, element)| *element == *hash)
                 .unwrap();
             let proof_path = Vec::with_capacity(16);
-            self.recursive_audit_path(hash.clone(), index_of_transaction, 0, proof_path)
+            self.recursive_audit_path(*hash, index_of_transaction, 0, proof_path)
         }
 
     }
@@ -280,14 +279,14 @@ impl MerkleTree {
             let pair;
             let expected_node;
             if hash_index % 2 != 0 {
-                pair = self.layers[layer_index][hash_index - 1].clone();
+                pair = self.layers[layer_index][hash_index - 1];
                 expected_node = hash_node(&pair, &hash);
             } else {
-                pair = self.layers[layer_index][hash_index + 1].clone();
+                pair = self.layers[layer_index][hash_index + 1];
                 expected_node = hash_node(&hash, &pair);
             }
             let parent_index = hash_index / 2;
-            let actual_node = self.layers[layer_index + 1][parent_index].clone();
+            let actual_node = self.layers[layer_index + 1][parent_index];
             if expected_node != actual_node {
                 return Err("Tree invalidate.");
             } else {
