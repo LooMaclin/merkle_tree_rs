@@ -68,12 +68,12 @@ impl MerkleTree {
     {
         let log2_leaves = (leaves.len() as f64).log2();
         println!("log2 leaves: {}", log2_leaves);
-        let mut base_layer = leaves.iter()
+        let mut base_layer : Vec<[u8;32]> = leaves.iter()
             .map(|element| {
                 let serialized_element = format.serialize(&element);
                 hash_leaf(&serialized_element)
             })
-            .collect::<Vec<[u8; 32]>>();
+            .collect();
         let mut layer_len = base_layer.len();
         base_layer.reserve(layer_len);
         let mut layers: Vec<Vec<[u8; 32]>> = Vec::with_capacity(((log2_leaves).ceil()) as usize);
