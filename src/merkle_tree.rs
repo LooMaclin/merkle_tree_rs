@@ -76,7 +76,7 @@ impl MerkleTree {
             .collect::<Vec<[u8; 32]>>();
         let mut layer_len = base_layer.len();
         base_layer.reserve(layer_len);
-        let mut layers: Vec<Vec<[u8; 32]>> = Vec::with_capacity(((log2_leaves).round()) as usize);
+        let mut layers: Vec<Vec<[u8; 32]>> = Vec::with_capacity(((log2_leaves).ceil()) as usize);
         layers.push(Vec::with_capacity(layer_len));
         while layer_len != 1 {
             debug!("Create new layer with capacity: {}", layer_len);
