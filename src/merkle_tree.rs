@@ -48,7 +48,7 @@ impl MerkleTree {
                 self.layers[1].push(hashed_leaf);
             }
             _ => {
-                debug!("Tree have more one leaf.");
+                debug!("Tree have more than one leaf.");
                 self.recursive_create_nodes(0);
             }
         }
