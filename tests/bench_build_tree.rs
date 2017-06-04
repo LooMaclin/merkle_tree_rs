@@ -25,7 +25,7 @@ mod tests {
             let n = self::test::black_box(1);
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -35,7 +35,7 @@ mod tests {
             let n = self::test::black_box(10);
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -45,7 +45,7 @@ mod tests {
             let n = self::test::black_box(100);
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -55,7 +55,7 @@ mod tests {
                    let n = self::test::black_box(1000);
                    let mut merkle_tree: MerkleTree = MerkleTree::default();
                    (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-                   merkle_tree.build()
+                   merkle_tree.build().unwrap()
                })
     }
 
@@ -66,7 +66,7 @@ mod tests {
                    let n = self::test::black_box(10000);
                    let mut merkle_tree: MerkleTree = MerkleTree::default();
                    (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-                   merkle_tree.build()
+                   merkle_tree.build().unwrap()
                })
     }
 
@@ -76,7 +76,7 @@ mod tests {
             let n = self::test::black_box(100000);
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -86,7 +86,7 @@ mod tests {
             let n = self::test::black_box(1000000);
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -97,7 +97,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -108,7 +108,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -119,7 +119,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -130,7 +130,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -142,7 +142,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -153,7 +153,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -164,7 +164,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -184,7 +184,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -195,7 +195,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -206,7 +206,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -217,7 +217,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -229,7 +229,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -240,7 +240,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -251,7 +251,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::MsgPack;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -263,7 +263,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -275,7 +275,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -287,7 +287,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -299,7 +299,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -312,7 +312,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -324,7 +324,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -336,7 +336,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::MsgPack;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -355,7 +355,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -366,7 +366,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -377,7 +377,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -388,7 +388,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -400,7 +400,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -411,7 +411,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -422,7 +422,7 @@ mod tests {
             let mut merkle_tree: MerkleTree = MerkleTree::default();
             merkle_tree.format = SerializationFormat::Bincode;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -434,7 +434,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -446,7 +446,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -458,7 +458,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -470,7 +470,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -483,7 +483,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -495,7 +495,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 
@@ -507,7 +507,7 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = false;
             (0..n).fold((), |_, _| { merkle_tree.push(&["a"]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 

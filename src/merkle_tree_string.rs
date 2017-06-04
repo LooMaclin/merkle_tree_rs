@@ -192,7 +192,7 @@ impl MerkleTreeString {
 
     pub fn audit_proof(&mut self, hash: &String) -> Result<Vec<String>, &str> {
         if !self.builded {
-            self.build();
+            self.build().unwrap();
         }
         if self.layers[0].len() == 1 {
             let root_hash = hash_leaf_string(hash);
@@ -256,10 +256,10 @@ mod tests {
         let mut merkle_tree_sequence: MerkleTreeString = MerkleTreeString::default();
         merkle_tree_sequence.parallel = false;
         merkle_tree_sequence.push(&String::from("a"));
-        merkle_tree_sequence.build();
+        merkle_tree_sequence.build().unwrap();
         let mut merkle_tree_parallel: MerkleTreeString = MerkleTreeString::default();
         merkle_tree_parallel.push(&String::from("a"));
-        merkle_tree_parallel.build();
+        merkle_tree_parallel.build().unwrap();
         assert_eq!(merkle_tree_sequence.layers, merkle_tree_parallel.layers);
     }
 
@@ -268,7 +268,7 @@ mod tests {
     fn build_empty_tree() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTreeString = MerkleTreeString::default();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
     }
 
     #[test]
@@ -276,7 +276,7 @@ mod tests {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTreeString = MerkleTreeString::default();
         merkle_tree.push(&String::from("a"));
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -286,7 +286,7 @@ mod tests {
         let mut merkle_tree: MerkleTreeString = MerkleTreeString::default();
         merkle_tree.push(&String::from("a"));
         merkle_tree.push(&String::from("a"));
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
     }
 
     #[test]
@@ -296,7 +296,7 @@ mod tests {
         merkle_tree.push(&String::from("a"));
         merkle_tree.push(&String::from("a"));
         merkle_tree.push(&String::from("a"));
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
     }
 
     #[test]
@@ -307,7 +307,7 @@ mod tests {
         merkle_tree.push(&String::from("a"));
         merkle_tree.push(&String::from("a"));
         merkle_tree.push(&String::from("a"));
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -320,7 +320,7 @@ mod tests {
                                                                              String::from("d")],
                                                                        SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -334,12 +334,12 @@ mod tests {
                                                                              String::from("e")],
                                                                        SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
         println!("========================================================");
         let mut merkle_tree_two: MerkleTreeString =
             MerkleTreeString::from(&mut [String::from("a")], SerializationFormat::Json);
-        merkle_tree_two.build();
+        merkle_tree_two.build().unwrap();
         merkle_tree_two.push(&String::from("b"));
         merkle_tree_two.push(&String::from("c"));
         merkle_tree_two.push(&String::from("d"));
@@ -357,7 +357,7 @@ mod tests {
                                                                              String::from("e")],
                                                                        SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
         let proof_path = merkle_tree.audit_proof(&String::from("b")).unwrap();
         debug!("proof path: {:?}", proof_path);

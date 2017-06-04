@@ -21,9 +21,9 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = true;
             merkle_tree.push(&["a"]);
-            merkle_tree.build();
+            merkle_tree.build().unwrap();
             (0..n).fold((), |_, index| { merkle_tree.push(&[index]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap();
         })
     }
 
@@ -35,9 +35,9 @@ mod tests {
             merkle_tree.format = SerializationFormat::Bincode;
             merkle_tree.parallel = true;
             merkle_tree.push(&["a"]);
-            merkle_tree.build();
+            merkle_tree.build().unwrap();
             (0..n).fold((), |_, index| { merkle_tree.push(&[index]); });
-            merkle_tree.build()
+            merkle_tree.build().unwrap()
         })
     }
 }

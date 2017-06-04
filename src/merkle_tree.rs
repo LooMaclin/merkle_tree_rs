@@ -33,12 +33,14 @@ impl Default for MerkleTree {
 
 impl MerkleTree {
     /// Производит построение дерева основываяся на 0-ом слое "листьев".
-    /// # Panics
-    /// В случае, если 0-ой слой "листьев" пуст - паникует.
-    pub fn build(&mut self) {
+    /// Возвращает Merkle Root Hash.
+    ///
+    /// # Failures
+    /// В случае, если 0-ой слой "листьев" пуст возвращает Err - "No leaves in tree".
+    pub fn build(&mut self) -> Result<[u8;32], &str> {
         match self.layers[0].len() {
             0 => {
-                panic!("No leaves in tree!");
+               Err("No leaves in tree")
             }
             1 => {
                 debug!("Tree have one leaf. Merke root hash == hash(leaf[0])");
@@ -46,18 +48,35 @@ impl MerkleTree {
                 debug!("Layers len: {}", self.layers.len());
                 self.layers.push(Vec::with_capacity(1250));
                 self.layers[1].push(hashed_leaf);
+                self.builded = true;
+                self.get_merkle_root()
             }
             _ => {
                 debug!("Tree have more than one leaf.");
                 self.recursive_create_nodes(0);
+                self.builded = true;
+                self.get_merkle_root()
             }
         }
-        self.builded = true;
     }
 
     /// Возвращает merkle root hash в качестве 32-байтного массива.
-    pub fn get_merkle_root(&self) -> [u8; 32] {
-        self.layers.last().unwrap()[0].clone()
+    pub fn get_merkle_root(&self) -> Result<[u8; 32], &str> {
+        match self.layers.last() {
+            Some(root_layer) => {
+                match root_layer.last() {
+                    Some(merkle_root_hash) => {
+                        Ok(merkle_root_hash.clone())
+                    },
+                    None => {
+                        Err("Root hash not found")
+                    }
+                }
+            },
+            None => {
+                Err("Tree is empty")
+            }
+        }
     }
 
     /// Производит создание "основы" Merkle tree.
@@ -234,12 +253,14 @@ impl MerkleTree {
     /// построении дерева.
     ///
     /// # Failures
+    ///
+    /// В случае, если дерево не было построено возвращается ошибка `Tree not builded`.
     /// В случае, если какой-либо из узлов на пути инвалидирован, т.е хэш актуальных в дереве значений
     /// не совпадает с вычисленным либо наоборот - возвращается ошибка `Tree invalidate`.
     ///
     pub fn audit_proof(&mut self, hash: &[u8; 32]) -> Result<Vec<[u8; 32]>, &str> {
         if !self.builded {
-            self.build();
+            return Err("Tree not builded");
         }
         if self.layers[0].len() == 1 {
             let root_hash = hash_leaf(hash);
@@ -318,19 +339,18 @@ mod tests {
         let mut merkle_tree_sequence: MerkleTree = MerkleTree::default();
         merkle_tree_sequence.parallel = false;
         merkle_tree_sequence.push(&["a"]);
-        merkle_tree_sequence.build();
+        merkle_tree_sequence.build().unwrap();
         let mut merkle_tree_parallel: MerkleTree = MerkleTree::default();
         merkle_tree_parallel.push(&["a"]);
-        merkle_tree_parallel.build();
+        merkle_tree_parallel.build().unwrap();
         assert_eq!(merkle_tree_sequence.layers, merkle_tree_parallel.layers);
     }
 
     #[test]
-    #[should_panic(expected = "No leaves in tree!")]
     fn build_empty_tree() {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTree = MerkleTree::default();
-        merkle_tree.build();
+        assert_eq!(merkle_tree.build(), Err("No leaves in tree"));
     }
 
     #[test]
@@ -338,7 +358,7 @@ mod tests {
         let _ = env_logger::init();
         let mut merkle_tree: MerkleTree = MerkleTree::default();
         merkle_tree.push(&["a"]);
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -348,7 +368,7 @@ mod tests {
         let mut merkle_tree: MerkleTree = MerkleTree::default();
         merkle_tree.push(&["a"]);
         merkle_tree.push(&["a"]);
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
     }
 
     #[test]
@@ -358,7 +378,7 @@ mod tests {
         merkle_tree.push(&["a"]);
         merkle_tree.push(&["a"]);
         merkle_tree.push(&["a"]);
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
     }
 
     #[test]
@@ -369,7 +389,7 @@ mod tests {
         merkle_tree.push(&["a"]);
         merkle_tree.push(&["a"]);
         merkle_tree.push(&["a"]);
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -379,7 +399,7 @@ mod tests {
         let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b", "c", "d"],
                                                            SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
     }
 
@@ -389,7 +409,7 @@ mod tests {
         let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b"],
                                                            SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         let serialized_hashed_a =
             hash_leaf(&SerializationFormat::Json.serialize(&String::from("a")));
         debug!("serialized hashed a: {:?}", serialized_hashed_a);
@@ -399,14 +419,14 @@ mod tests {
         let merkle_root_hash_of_a_and_b = hash_node(&serialized_hashed_a, &serialized_hashed_b);
         debug!("merkle root hash of a and b transactions: {:?}",
                merkle_root_hash_of_a_and_b);
-        assert_eq!(merkle_root_hash_of_a_and_b, merkle_tree.get_merkle_root());
+        assert_eq!(merkle_root_hash_of_a_and_b, merkle_tree.get_merkle_root().unwrap());
         merkle_tree.print();
         let mut merkle_tree_two: MerkleTree = MerkleTree::from(&mut ["a"],
                                                                SerializationFormat::Json);
-        merkle_tree_two.build();
+        merkle_tree_two.build().unwrap();
         merkle_tree_two.push(&String::from("b"));
         merkle_tree_two.print();
-        assert_eq!(merkle_tree_two.get_merkle_root(),
+        assert_eq!(merkle_tree_two.get_merkle_root().unwrap(),
                    merkle_root_hash_of_a_and_b);
         assert_eq!(merkle_tree_two, merkle_tree);
     }
@@ -417,7 +437,7 @@ mod tests {
         let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b", "c", "d", "e"],
                                                            SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         merkle_tree.print();
         let proof_path = merkle_tree.audit_proof(&[172, 141, 131, 66, 187, 178, 54, 45, 19, 240, 165, 89, 163, 98, 27, 180, 7, 1, 19, 104, 137, 81, 100, 182, 40, 165, 79, 127, 195, 63, 196, 60]).unwrap();
         debug!("proof path: {:?}", proof_path);
@@ -437,9 +457,15 @@ mod tests {
         let mut merkle_tree: MerkleTree = MerkleTree::from(&mut ["a", "b", "c", "d", "e"],
                                                            SerializationFormat::Json);
         merkle_tree.print();
-        merkle_tree.build();
+        merkle_tree.build().unwrap();
         let proof_path = merkle_tree.audit_proof(&[172, 124, 131, 66, 187, 178, 54, 45, 19, 240, 165, 89, 163, 98, 27, 180, 7, 1, 19, 104, 137, 81, 100, 182, 40, 165, 79, 127, 195, 63, 196, 60]);
         assert_eq!(Err("Transaction hash not found in leaves layer."), proof_path);
+    }
+
+    #[test]
+    fn test_root_hash_not_found() {
+        let merkle_tree: MerkleTree = MerkleTree::default();
+        assert_eq!(Err("Root hash not found"), merkle_tree.get_merkle_root());
     }
 
 }
