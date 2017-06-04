@@ -468,4 +468,11 @@ mod tests {
         assert_eq!(Err("Root hash not found"), merkle_tree.get_merkle_root());
     }
 
+    #[test]
+    fn test_tree_not_builded() {
+        let mut merkle_tree: MerkleTree = MerkleTree::default();
+        assert_eq!(Err("Tree not builded"),
+            merkle_tree.audit_proof(&[172, 124, 131, 66, 187, 178, 54, 45, 19, 240, 165, 89, 163, 98, 27, 180, 7, 1, 19, 104, 137, 81, 100, 182, 40, 165, 79, 127, 195, 63, 196, 60]));
+    }
+
 }
