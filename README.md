@@ -110,7 +110,7 @@ fn main() {
     // создаём дерево на основе 3-ёх "листьев"
     let mut merkle_tree = MerkleTree::from(&mut ["a", "b", "c"], SerializationFormat::Json);
     // вызываем построение дерева    
-    merkle_tree.build();
+    merkle_tree.build().unwrap();
     // печатаем вычисленный хэш рут дерева
     println!("Merkle tree root hash: {:?}", merkle_tree.get_merkle_root());
     // печатаем пруф-путь для транзакции b
