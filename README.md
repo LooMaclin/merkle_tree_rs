@@ -1,5 +1,10 @@
 # Merkle Tree на Rust
 
+[![Build Status](https://travis-ci.org/LooMaclin/merkle_tree_rs.svg?branch=master)](https://travis-ci.org/LooMaclin/merkle_tree_rs)
+
+[![Coverage Status](https://coveralls.io/repos/github/LooMaclin/merkle_tree_rs/badge.svg?branch=master)](https://coveralls.io/github/LooMaclin/merkle_tree_rs?branch=master)
+
+
 ## Технические решения
 
 ### Итерация мыслей 0
