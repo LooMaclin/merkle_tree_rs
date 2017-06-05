@@ -4,6 +4,7 @@
 
 [![Coverage Status](https://coveralls.io/repos/github/LooMaclin/merkle_tree_rs/badge.svg?branch=master)](https://coveralls.io/github/LooMaclin/merkle_tree_rs?branch=master)
 
+[![Documentation](https://docs.rs/merkle_tree/badge.svg "Merkle Tree documentation")](https://docs.rs/merkle_tree/0.1.0/merkle_tree/)
 
 ## Технические решения
 
