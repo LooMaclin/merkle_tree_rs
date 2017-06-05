@@ -2,6 +2,8 @@
 name = "merkle_tree"
 version = "0.1.0"
 authors = ["loo.maclin <loo.maclin@protonmail.com>"]
+description = "Merkle Tree implementation"
+license = "MIT"
 
 [dependencies]
 rust-crypto = "0.2.36"
